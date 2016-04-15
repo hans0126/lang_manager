@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" ng-app='app'>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="lib/angular.min.js"></script>
+    <script src="app/main_ctrl.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <style>
+    body {
+        min-width: 1024px;
+    }
+    
+    .left_area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 250px;
+    }
+    
+    .right_area {
+        margin-left: 260px;
+    }
+    
+    .lang_area,
+    .lang_word {
+        position: absolute;
+        height: 50%;
+        left: 0;
+    }
+    
+    .lang_area {
+        top: 0;
+    }
+    
+    .lang_word {
+        top: 50%;
+    }
+    </style>
+</head>
+
+<body ng-controller="MainCtrl as mc">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="left_area">
+                <div class="lang_area">
+                    <div class="form-inline">
+                        <input type="text" class="form-control" ng-model="mc.langInput">
+                        <button class="btn btn-primary" ng-click="mc.addLang(mc.langInput)">add</button>
+                    </div>
+                    <ul class="list-unstyled">
+                        <li class="" ng-repeat="(key, value) in mc.lang">
+                            <div class="">{{value.title}}
+                                <input type="text" class="form-control" ng-if="value.ctrl" ng-model="value.edit_value">
+                            </div>
+                            <div ng-if="!value.ctrl" class="btn-group">
+                                <button class="btn btn-success" ng-click="mc.edit(mc.lang[key])">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </button>
+                            </div>
+                            <div ng-if="value.ctrl" class="btn-group">
+                                <button class="btn btn-success" ng-click="mc.edit(mc.lang[key])">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                </button>
+                                <button class="btn btn-success" ng-click="mc.langSaveEdit(mc.lang[key])">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </button>
+                                <button class="btn btn-danger" ng-click="mc.langRemove(mc.lang[key])">
+                                    <span class="glyphicon  glyphicon-remove"></span>
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lang_word">
+                    <div class="form-inline">
+                        <input type="text" class="form-control" ng-model="mc.wordInput">
+                        <button class="btn btn-primary" ng-click="mc.addWord(mc.wordInput)">add</button>
+                    </div>
+                    <ul class="list-unstyled">
+                        <li class="" ng-repeat="(key, value) in mc.word">
+                            <div>{{value.title}}
+                                <input type="text" class="form-control" ng-if="value.ctrl" ng-model="value.edit_value">
+                            </div>
+                            <div ng-if="!value.ctrl" class="btn-group">
+                                <button class="btn btn-success" ng-click="mc.edit(mc.word[key])">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </button>
+                                <button class="btn btn-primary" ng-click="mc.selectWord(mc.word[key])">
+                                    <span class="glyphicon   glyphicon-search"></span>
+                                </button>
+                            </div>
+                            <div ng-if="value.ctrl" class="btn-group">
+                                <button class="btn btn-success" ng-click="mc.edit(mc.word[key])">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                </button>
+                                <button class="btn btn-success" ng-click="mc.wordSaveEdit(mc.word[key])">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </button>
+                                <button class="btn btn-danger" ng-click="mc.wordRemove(mc.word[key])">
+                                    <span class="glyphicon  glyphicon-remove"></span>
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="right_area">
+                <div class="form-inline">
+                    <select class="form-control" ng-model="mc.exportSelcted">
+                        <option ng-repeat="value in mc.exportType" value="{{value}}">{{value}}</option>
+                    </select>
+                    <button class="btn btn-primary" ng-click="mc.export()">EXPORT</button>                  
+                </div>
+                <h5>{{mc.selectedWordTitle}}</h5>
+                <ul class="list-unstyled">
+                    <li ng-repeat="(key, value) in mc.selectedWords.langs">
+                        <label>{{key}}</label>
+                        <input type="text" class="form-control" ng-model="mc.selectedWords.langs[key].edit_value">
+                    </li>
+                </ul>
+                <button class="btn btn-success" ng-click="mc.saveData()">SAVE</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
